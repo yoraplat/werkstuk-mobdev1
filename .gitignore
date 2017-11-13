@@ -544,3 +544,7 @@ __pycache__/
 # should be stored in the .pubxml.user file.
 
 # End of https://www.gitignore.io/api/web,node,linux,macos,windows,webstorm,jetbrains,visualstudio,visualstudiocode
+
+# Extra rules for project
+dist/
+.tmp/
