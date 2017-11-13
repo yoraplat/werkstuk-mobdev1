@@ -15,6 +15,7 @@ import sassdoc from 'sassdoc';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
+const devMode = true;
 
 /*
  HTML
@@ -156,7 +157,7 @@ gulp.task('scripts', () =>
 */
 gulp.task('images', () =>
   gulp.src('app/assets/images/**/*')
-    .pipe($.plumberNotifier())   
+    .pipe($.plumberNotifier())
     .pipe($.cache($.imagemin({
       progressive: true,
       interlaced: true
@@ -164,6 +165,17 @@ gulp.task('images', () =>
     .pipe(gulp.dest('dist/assets/images'))
     .pipe($.size({title: 'images'}))
 );
+
+/*
+ Fonts
+ =====================================================================================
+ Optimize images
+*/
+gulp.task('fonts', () => {
+  return gulp.src('app/assets/fonts/**/*.{eot,svg,ttf,woff,woff2}')
+    .pipe($.concat('app/fonts/**/*'))
+    .pipe($.if(devMode, gulp.dest('.tmp/fonts'), gulp.dest('dist/fonts')));
+});
 
 /*
  Clean
@@ -193,7 +205,7 @@ gulp.task('copy', () =>
   ], {
     dot: true
   })
-    .pipe($.plumberNotifier())   
+    .pipe($.plumberNotifier())
     .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'copy'}))
 );
@@ -255,7 +267,7 @@ gulp.task('serve:dist', ['scripts', 'styles'], () => {
 gulp.task('default', ['clean'], cb =>
   runSequence(
     'styles',
-    ['es:lint', 'html', 'scripts', 'images', 'copy'],
+    ['es:lint', 'html', 'scripts', 'images', 'fonts', 'copy'],
     'sass:doc',
     cb
   )
