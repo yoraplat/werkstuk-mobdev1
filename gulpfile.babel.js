@@ -134,8 +134,16 @@ gulp.task('scripts', () =>
     .pipe($.newer('.tmp/assets/js'))
     .pipe($.sourcemaps.init())
     .pipe($.babel())
+    .pipe($.webpack({
+      entry: {
+        app: './app/assets/es/main.js'
+      },
+      output: {
+        filename: '[name].js',
+      },
+    }))
     .pipe($.sourcemaps.write())
-    .pipe(gulp.dest('.tmp/assets/js'))
+    .pipe(gulp.dest('.tmp/assets/js'))    
     .pipe($.concat('main.min.js'))
     .pipe($.uglify(
       {

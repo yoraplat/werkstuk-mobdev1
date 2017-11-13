@@ -1,6 +1,6 @@
 'use strict';
 
-import { Post } from './models';
+import { Post, Person, Student } from './models';
 
 class App {
   constructor () {
@@ -9,6 +9,10 @@ class App {
 
   init () {
     console.log('Initialization of the class App');
+
+    const p = new Person('Philippe', 'De Pauw - Waterschoot');
+    console.log(p);
+
   }
 };
 
