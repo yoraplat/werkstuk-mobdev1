@@ -8,6 +8,7 @@ import browserSync from 'browser-sync';
 import del from 'del';
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
+import webpack from 'webpack-stream';
 import path from 'path';
 import pkg from './package.json';
 import runSequence from 'run-sequence';
@@ -86,6 +87,12 @@ gulp.task('styles', () => {
 });
 
 /*
+ Sass & CSS Lint
+ =====================================================================================
+ Lint the Sass & CSS code --> check code quality
+*/
+
+/*
  Sass Documentation Generator
  =====================================================================================
  Transpile Sass to CSS
@@ -133,17 +140,25 @@ gulp.task('scripts', () =>
     .pipe($.plumberNotifier())
     .pipe($.newer('.tmp/assets/js'))
     .pipe($.sourcemaps.init())
-    .pipe($.babel())
-    .pipe($.webpack({
+    .pipe(webpack({
       entry: {
         app: './app/assets/es/main.js'
       },
       output: {
-        filename: '[name].js',
+        filename: 'main.js'
       },
+      module: {
+        rules: [
+          {
+            test: /\.(js|jsx)$/,
+            exclude: /(node_modules)/,
+            loader: 'babel-loader'
+          }
+        ]
+      }
     }))
     .pipe($.sourcemaps.write())
-    .pipe(gulp.dest('.tmp/assets/js'))    
+    .pipe(gulp.dest('.tmp/assets/js'))
     .pipe($.concat('main.min.js'))
     .pipe($.uglify(
       {
@@ -240,8 +255,8 @@ gulp.task('serve', ['scripts', 'styles'], () => {
   });
 
   gulp.watch(['app/**/*.html'], reload);
-  gulp.watch(['app/assets/sass/**/*.{scss}', 'app/assets/css/**/*.{css}'], ['styles', reload]);
-  gulp.watch(['app/assets/es/**/*.js', 'app/assets/js/**/*.js'], ['lint', 'scripts', reload]);
+  gulp.watch(['app/assets/sass/**/*.scss', 'app/assets/css/**/*.css'], ['styles', reload]);
+  gulp.watch(['app/assets/es/**/*.js', 'app/assets/js/**/*.js'], ['es:lint', 'scripts', reload]);
   gulp.watch(['app/assets/images/**/*'], reload);
 });
 
