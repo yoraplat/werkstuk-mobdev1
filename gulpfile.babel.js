@@ -23,22 +23,22 @@ const reload = browserSync.reload;
  Optimize assets
 */
 gulp.task('html', () => {
-    return gulp.src('app/**/*.html')
-    .pipe($.plumberNotifier())   
+  return gulp.src('app/**/*.html')
+    .pipe($.plumberNotifier())
     .pipe($.useref({
-        searchPath: '{.tmp,app}',
-        noAssets: true
+      searchPath: '{.tmp,app}',
+      noAssets: true
     }))
     .pipe($.if('*.html', $.htmlmin({
-        removeComments: true,
-        collapseWhitespace: true,
-        collapseBooleanAttributes: true,
-        removeAttributeQuotes: true,
-        removeRedundantAttributes: true,
-        removeEmptyAttributes: true,
-        removeScriptTypeAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        removeOptionalTags: true
+      removeComments: true,
+      collapseWhitespace: true,
+      collapseBooleanAttributes: true,
+      removeAttributeQuotes: true,
+      removeRedundantAttributes: true,
+      removeEmptyAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      removeOptionalTags: true
     })))
     .pipe($.if('*.html', $.size({title: 'html', showFiles: true})))
     .pipe(gulp.dest('dist'));
@@ -51,29 +51,29 @@ gulp.task('html', () => {
  Automatically prefix stylesheets
 */
 gulp.task('styles', () => {
-    const AUTOPREFIXER_BROWSERS = [
-        'ie >= 10',
-        'ie_mob >= 10',
-        'ff >= 30',
-        'chrome >= 34',
-        'safari >= 7',
-        'opera >= 23',
-        'ios >= 7',
-        'android >= 4.4',
-        'bb >= 10'
-    ];
+  const AUTOPREFIXER_BROWSERS = [
+    'ie >= 10', 
+    'ie_mob >= 10',
+    'ff >= 30',
+    'chrome >= 34',
+    'safari >= 7',
+    'opera >= 23',
+    'ios >= 7',
+    'android >= 4.4',
+    'bb >= 10'
+  ];
 
-    return gulp.src([
-        'app/assets/sass/*.scss',
-        'app/assets/css/**/*.css'
-    ])
-    .pipe($.plumberNotifier())   
+  return gulp.src([
+    'app/assets/sass/*.scss',
+    'app/assets/css/**/*.css'
+  ])
+    .pipe($.plumberNotifier())
     .pipe($.newer('.tmp/assets/css'))
     .pipe($.sourcemaps.init())
     .pipe($.sass({
-        outputStyle: 'expanded',
-        precision: 10,
-        includePaths: ['.']
+      outputStyle: 'expanded',
+      precision: 10,
+      includePaths: ['.']
     }).on('error', $.sass.logError))
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
     .pipe(gulp.dest('.tmp/assets/css'))
