@@ -91,6 +91,17 @@ gulp.task('styles', () => {
  =====================================================================================
  Lint the Sass & CSS code --> check code quality
 */
+gulp.task('styles:lint', () => {
+  gulp.src([
+    'app/assets/sass/**/*.scss',
+    'app/assets/css/**/*.css'
+  ])
+    .pipe($.stylelint({
+      reporters: [
+        { formatter: 'string', console: true }
+      ]
+    }));
+});
 
 /*
  Sass Documentation Generator
