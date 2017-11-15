@@ -295,6 +295,18 @@ gulp.task('copy', () =>
 );
 
 /*
+ Copy
+ =====================================================================================
+ Copy all files (root-level) from the app folder
+*/
+gulp.task('dev:puml', () =>
+gulp.src('app/docs/puml/**/*.puml')
+  .pipe($.plumberNotifier())
+  .pipe($.puml())
+  .pipe(gulp.dest('dist/docs/uml/'))
+);
+
+/*
  Server
  =====================================================================================
  Watch files for changes and reload
