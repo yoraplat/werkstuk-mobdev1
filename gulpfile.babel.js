@@ -225,11 +225,11 @@ gulp.task('scripts', () =>
  Lint the ES6 code --> check code quality
 */
 gulp.task('scripts:lint', () =>
-gulp.src(['app/assets/es/**/*.js', 'app/assets/js/**/*.js', '!node_modules/**'])
-  .pipe($.plumberNotifier())
-  .pipe($.eslint())
-  .pipe($.eslint.format())
-  .pipe($.if(!browserSync.active, $.eslint.failAfterError()))
+  gulp.src(['app/assets/es/**/*.js', 'app/assets/js/**/*.js', '!node_modules/**'])
+    .pipe($.plumberNotifier())
+    .pipe($.eslint())
+    .pipe($.eslint.format())
+    .pipe($.if(!browserSync.active, $.eslint.failAfterError()))
 );
 
 /*
@@ -253,12 +253,12 @@ gulp.task('images', () =>
  =====================================================================================
  Optimize images
 */
-gulp.task('fonts', () => {
-  return gulp.src('app/assets/fonts/**/*.{eot,svg,ttf,woff,woff2}')
+gulp.task('fonts', () =>
+  gulp.src('app/assets/fonts/**/*.{eot,svg,ttf,woff,woff2}')
     .pipe($.concat('app/fonts/**/*'))
     .pipe(gulp.dest('.tmp/fonts'))
-    .pipe(gulp.dest('dist/fonts'));
-});
+    .pipe(gulp.dest('dist/fonts'))
+);
 
 /*
  Clean
@@ -300,10 +300,10 @@ gulp.task('copy', () =>
  Copy all files (root-level) from the app folder
 */
 gulp.task('dev:puml', () =>
-gulp.src('app/docs/puml/**/*.puml')
-  .pipe($.plumberNotifier())
-  .pipe($.puml())
-  .pipe(gulp.dest('dist/docs/uml/'))
+  gulp.src('app/docs/puml/**/*.puml')
+    .pipe($.plumberNotifier())
+    .pipe($.puml())
+    .pipe(gulp.dest('dist/docs/uml/'))
 );
 
 /*
