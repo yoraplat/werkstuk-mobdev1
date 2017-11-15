@@ -55,6 +55,25 @@ gulp.task('html', () => {
 });
 
 /*
+ Handlebars
+ =====================================================================================
+ Compile Handlebars Pages to HTML
+*/
+gulp.task('handlebars:compile', () => {
+  gulp
+    .src('app/_hb/pages/**/*.hbs')
+    .pipe($.hb({
+        partials: 'app/_hb/partials/**/*.hbs',
+        helpers: 'app/_hb/helpers/*.js',
+        data: 'app/_hb/data/**/*.{js,json}'
+    }))
+    .pipe($.rename({
+      extname: ".html"
+    }))
+    .pipe(gulp.dest('./app'));
+});
+
+/*
  HTML Lint
  =====================================================================================
  Lint the HTML code
@@ -265,6 +284,7 @@ gulp.task('clean', () =>
 gulp.task('copy', () =>
   gulp.src([
     'app/*',
+    '!app/_hb',
     '!app/*.html'
   ], {
     dot: true

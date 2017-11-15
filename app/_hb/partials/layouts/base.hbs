@@ -1,0 +1,17 @@
+{{!-- layouts/base.hbs --}}
+<!doctype html>
+<html>
+  <head>
+    <title>
+      {{#if title}}
+        {{title}}
+      {{else}}
+        Base Page Title
+      {{/if}}
+    </title>
+    <link rel="stylesheet" href="assets/js/main.css">
+  </head>
+  <body>
+    {{> includes/google-analytics}}
+  </body>
+</html>
