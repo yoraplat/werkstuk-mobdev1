@@ -47,6 +47,25 @@ gulp.task('html', () => {
 });
 
 /*
+ HTML Lint
+ =====================================================================================
+ Lint the HTML code
+*/
+gulp.task('html:lint', () =>
+  gulp.src('app/**/*.html')
+    .pipe($.htmllint({}, htmllintReporter))
+);
+
+function htmllintReporter (filepath, issues) {
+  if (issues.length > 0) {
+    issues.forEach(function (issue) {
+      $.gutil.log($.gutil.colors.cyan('[gulp-htmllint] ') + $.gutil.colors.white(filepath + ' [' + issue.line + ',' + issue.column + ']: ') + $.gutil.colors.red('(' + issue.code + ') ' + issue.msg));
+    });
+    process.exitCode = 1;
+  }
+}
+
+/*
  Styles
  =====================================================================================
  Transpile Sass to CSS
@@ -301,7 +320,7 @@ gulp.task('serve:dist', ['scripts', 'styles'], () => {
 gulp.task('default', ['clean'], cb =>
   runSequence(
     'styles',
-    ['es:lint', 'html', 'scripts', 'images', 'fonts', 'copy'],
+    ['es:lint', 'styles:lint', 'html', 'styles', 'scripts', 'images', 'fonts', 'copy'],
     'sass:doc',
     cb
   )
