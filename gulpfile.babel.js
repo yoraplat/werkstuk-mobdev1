@@ -315,9 +315,10 @@ gulp.task('serve', ['scripts', 'styles'], () => {
     }
   });
 
-  gulp.watch(['app/**/*.html'], reload);
-  gulp.watch(['app/assets/sass/**/*.scss', 'app/assets/css/**/*.css'], ['styles', reload]);
-  gulp.watch(['app/assets/es/**/*.js', 'app/assets/js/**/*.js'], ['es:lint', 'scripts', reload]);
+  gulp.watch(['app/_hb/**/*.hbs'], ['handlebars:compile', reload]);
+  gulp.watch(['app/**/*.html'], ['html', reload]);
+  gulp.watch(['app/assets/sass/**/*.scss', 'app/assets/css/**/*.css'], ['styles:lint', 'styles', reload]);
+  gulp.watch(['app/assets/es/**/*.js', 'app/assets/js/**/*.js'], ['scripts:lint', 'scripts', reload]);
   gulp.watch(['app/assets/images/**/*'], reload);
 });
 
@@ -352,6 +353,7 @@ gulp.task('default', ['clean'], cb =>
   runSequence(
     ['scripts:lint', 'styles:lint'],
     'sass:doc',
+    'handlebars:compile',
     ['html', 'styles', 'scripts', 'images', 'fonts', 'copy'],
     cb
   )
