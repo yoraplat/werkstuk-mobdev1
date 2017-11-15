@@ -1,3 +1,11 @@
+/*
+ Automation Project
+ =====================================================================================
+ Specialization: New Media Development
+ Author : Philippe De Pauw - Waterschoot
+ Version: 1.0.0
+*/
+
 'use strict';
 
 /*
@@ -115,6 +123,7 @@ gulp.task('styles:lint', () => {
     'app/assets/sass/**/*.scss',
     'app/assets/css/**/*.css'
   ])
+    .pipe($.plumberNotifier())
     .pipe($.stylelint({
       reporters: [
         { formatter: 'string', console: true }
@@ -146,18 +155,6 @@ gulp.task('sass:doc', function () {
   return gulp.src('app/assets/sass/**/*.scss')
     .pipe(sassdoc(options));
 });
-
-/*
- ES & JS Lint
- =====================================================================================
- Lint the ES6 code --> check code quality
-*/
-gulp.task('es:lint', () =>
-  gulp.src(['app/assets/es/**/*.js', 'app/assets/js/**/*.js', '!node_modules/**'])
-    .pipe($.eslint())
-    .pipe($.eslint.format())
-    .pipe($.if(!browserSync.active, $.eslint.failAfterError()))
-);
 
 /*
  Scripts
@@ -204,6 +201,19 @@ gulp.task('scripts', () =>
 );
 
 /*
+ ES & JS Lint
+ =====================================================================================
+ Lint the ES6 code --> check code quality
+*/
+gulp.task('scripts:lint', () =>
+gulp.src(['app/assets/es/**/*.js', 'app/assets/js/**/*.js', '!node_modules/**'])
+  .pipe($.plumberNotifier())
+  .pipe($.eslint())
+  .pipe($.eslint.format())
+  .pipe($.if(!browserSync.active, $.eslint.failAfterError()))
+);
+
+/*
  Images
  =====================================================================================
  Optimize images
@@ -227,7 +237,8 @@ gulp.task('images', () =>
 gulp.task('fonts', () => {
   return gulp.src('app/assets/fonts/**/*.{eot,svg,ttf,woff,woff2}')
     .pipe($.concat('app/fonts/**/*'))
-    .pipe($.if(devMode, gulp.dest('.tmp/fonts'), gulp.dest('dist/fonts')));
+    .pipe(gulp.dest('.tmp/fonts'))
+    .pipe(gulp.dest('dist/fonts'));
 });
 
 /*
@@ -291,7 +302,7 @@ gulp.task('serve', ['scripts', 'styles'], () => {
 });
 
 /*
- Server
+ Server Distribution
  =====================================================================================
  Watch files for changes and reload
 */
@@ -319,9 +330,9 @@ gulp.task('serve:dist', ['scripts', 'styles'], () => {
 */
 gulp.task('default', ['clean'], cb =>
   runSequence(
-    'styles',
-    ['es:lint', 'styles:lint', 'html', 'styles', 'scripts', 'images', 'fonts', 'copy'],
+    ['scripts:lint', 'styles:lint'],
     'sass:doc',
+    ['html', 'styles', 'scripts', 'images', 'fonts', 'copy'],
     cb
   )
 );
