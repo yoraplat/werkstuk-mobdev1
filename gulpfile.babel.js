@@ -156,7 +156,7 @@ gulp.task('styles:lint', () => {
  Transpile Sass to CSS
  Automatically prefix stylesheets
 */
-gulp.task('sass:doc', function () {
+gulp.task('sass:docs', () => {
   var options = {
     dest: 'dist/sassdocs',
     verbose: true,
@@ -352,7 +352,7 @@ gulp.task('serve:dist', ['scripts', 'styles'], () => {
 gulp.task('default', ['clean'], cb =>
   runSequence(
     ['scripts:lint', 'styles:lint'],
-    'sass:doc',
+    'sass:docs',
     'handlebars:compile',
     ['html', 'styles', 'scripts', 'images', 'fonts', 'copy'],
     cb
