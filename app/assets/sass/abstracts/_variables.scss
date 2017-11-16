@@ -10,9 +10,9 @@ $dev-mode: true !default;
 /// @type Map
 $ms-ratios: (
   'minor_second'  : 15/16,
-	'major_second'  : 8/9,
-	'minor_third'   : 5/6,
-	'major_third'   : 4/5,
+  'major_second'  : 8/9,
+  'minor_third'   : 5/6,
+  'major_third'   : 4/5,
   'perfect_fourth': 3/4,
   'perfect_fifth' : 2/3,
   'minor_sixth'   : 5/8,
@@ -32,7 +32,7 @@ $ms-ratios: (
 /// @group abstracts
 /// @access public
 /// @type Number
-$ms-ratio: map-get($ms-ratios, 'major_second') !default;
+$ms-ratio: map-get($ms-ratios, 'major_third') !default;
 
 /// Modular Scale Settings
 /// based on http://modularscale.com/scale/?px1=16&px2=18&ra1=1.333&ra2=0
@@ -64,6 +64,44 @@ $ms14 : ($ms12 / $ms-ratio) !default;
 /// @type Number
 $font-size-default: $ms00 !default;
 
-// Typography variables
-$font-family-roboto: 'Roboto', sans-serif;
-$font-family-body: $font-family-roboto;
+/// Font-family for the content
+/// @group abstracts
+/// @access public
+/// @type Number
+$font-family-body: 'Roboto', sans-serif;
+
+/// Font-weight for the content
+/// @group abstracts
+/// @access public
+/// @type Number
+$font-weight-body: 400;
+
+/// Line-height for the content
+/// @group abstracts
+/// @access public
+/// @type Number
+$font-line-height-body: #{$font-size-default*1.5}px;
+
+/// Font-family for the headings
+/// @group abstracts
+/// @access public
+/// @type Number
+$font-family-headings: 'Open Sans', sans-serif;
+
+/// Font-weight for the headings
+/// @group abstracts
+/// @access public
+/// @type Number
+$font-weight-headings: 400;
+
+/// Line-height for the headings
+/// @group abstracts
+/// @access public
+/// @type Number
+$font-line-height-headings: #{$font-size-default*3}px;
+
+/// Gutter for the grid
+/// @group abstracts
+/// @access public
+/// @type Number
+$grid-gutter: #{$font-size-default*1.5}px;

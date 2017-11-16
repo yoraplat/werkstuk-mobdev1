@@ -295,15 +295,26 @@ gulp.task('copy', () =>
 );
 
 /*
- Copy
+ PUML
  =====================================================================================
- Copy all files (root-level) from the app folder
+ UML with puml
 */
 gulp.task('dev:puml', () =>
   gulp.src('app/docs/puml/**/*.puml')
     .pipe($.plumberNotifier())
     .pipe($.puml())
     .pipe(gulp.dest('dist/docs/uml/'))
+);
+
+/*
+ PhantomJS Screenshots
+ =====================================================================================
+ Screenshots mad by headless browser
+*/
+gulp.task('phantomjs:screenshots', () =>
+  gulp.src('app/assets/es/phantomjs/screenshots.js')
+    .pipe($.phantom())
+    .pipe(gulp.dest('dist/docs/screenshots/'))
 );
 
 /*

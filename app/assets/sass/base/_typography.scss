@@ -1,3 +1,37 @@
 body {
   font-family: $font-family-body;
+  font-size: #{$font-size-default}px;
+  line-height: $font-line-height-body;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-family-headings;
+  font-size: #{$ms01}px;
+  line-height: $font-line-height-headings;
+  margin: $font-line-height-body 0;
+}
+
+h1 {
+  font-size: #{$ms06}px;
+}
+
+h2 {
+  font-size: #{$ms05}px;
+}
+
+h3 {
+  font-size: #{$ms04}px;
+}
+
+h4 {
+  font-size: #{$ms03}px;
+}
+
+h5 {
+  font-size: #{$ms02}px;
 }
