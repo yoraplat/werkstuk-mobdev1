@@ -3,7 +3,9 @@
 // 1. Variables
 @import
   'abstracts/variables',
-  'abstracts/fonts';
+  'abstracts/fonts',
+  'abstracts/functions',
+  'abstracts/mixins';
 
 // 2. Base
 @import
@@ -13,3 +15,7 @@
 // 3. Layout
 @import
   'layout/grid';
+
+// 4. Components
+@import
+  'components/gridoverlay';

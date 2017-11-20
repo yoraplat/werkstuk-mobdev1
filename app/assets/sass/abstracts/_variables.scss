@@ -1,8 +1,44 @@
-/// Development Mode
+/// Development mode
 /// @group abstracts
 /// @access public
 /// @type Boolean
 $dev-mode: true !default;
+
+/// Base font Size
+/// @group abstracts
+/// @access public
+/// @type Number
+$base-font-size: 16 !default;
+
+/// Base line height
+/// @group abstracts
+/// @access public
+/// @type Number
+$base-line-height: 1.5 !default;
+
+/// Base font family
+/// @group abstracts
+/// @access public
+/// @type Number
+$base-font-family: 'Roboto', sans-serif;
+
+/// Base font weight
+/// @group abstracts
+/// @access public
+/// @type Number
+$base-font-weight: 400;
+
+/// Headings font family
+/// @group abstracts
+/// @access public
+/// @type Number
+$headings-font-family: 'Open Sans', sans-serif;
+
+/// Headings font weight
+/// @group abstracts
+/// @access public
+/// @type Number
+$headings-font-weight: 400;
 
 /// Modular Scale Ratios
 /// @group abstracts
@@ -27,20 +63,19 @@ $ms-ratios: (
   'octave_double' : 1/4
 ) !default;
 
-/// Default modular Scale Ratio
+/// Base modular scale ratio
 /// based on http://modularscale.com/scale/?px1=16&px2=18&ra1=1.333&ra2=0
 /// @group abstracts
 /// @access public
 /// @type Number
 $ms-ratio: map-get($ms-ratios, 'major_third') !default;
 
-/// Modular Scale Settings
-/// based on http://modularscale.com/scale/?px1=16&px2=18&ra1=1.333&ra2=0
+/// Modular scale settings
 /// @group abstracts
 /// @access public
 /// @type Number
-$ms00 : 16 !default;
-$ms01 : 18 !default;
+$ms00 : 1 !default;
+$ms01 : 1.125 !default;
 $ms-01: ($ms01 * $ms-ratio) !default;
 $ms-02: ($ms00 * $ms-ratio) !default;
 $ms-03: ($ms-01 * $ms-ratio) !default;
@@ -56,52 +91,53 @@ $ms10 : ($ms08 / $ms-ratio) !default;
 $ms11 : ($ms09 / $ms-ratio) !default;
 $ms12 : ($ms10 / $ms-ratio) !default;
 $ms13 : ($ms11 / $ms-ratio) !default;
-$ms14 : ($ms12 / $ms-ratio) !default;
 
-/// Default Font Size
+$modular-scales: (
+  -3: $ms-03,
+  -2: $ms-02,
+  -1: $ms-01,
+  0: $ms00,
+  1: $ms01,
+  2: $ms02,
+  3: $ms03,
+  4: $ms04,
+  5: $ms05,
+  6: $ms06,
+  7: $ms07,
+  8: $ms08,
+  9: $ms09,
+  10: $ms10,
+  11: $ms11,
+  12: $ms12,
+  13: $ms13
+);
+
+/// Line heights vertical rhythm
 /// @group abstracts
 /// @access public
 /// @type Number
-$font-size-default: $ms00 !default;
-
-/// Font-family for the content
-/// @group abstracts
-/// @access public
-/// @type Number
-$font-family-body: 'Roboto', sans-serif;
-
-/// Font-weight for the content
-/// @group abstracts
-/// @access public
-/// @type Number
-$font-weight-body: 400;
-
-/// Line-height for the content
-/// @group abstracts
-/// @access public
-/// @type Number
-$font-line-height-body: #{$font-size-default*1.5}px;
-
-/// Font-family for the headings
-/// @group abstracts
-/// @access public
-/// @type Number
-$font-family-headings: 'Open Sans', sans-serif;
-
-/// Font-weight for the headings
-/// @group abstracts
-/// @access public
-/// @type Number
-$font-weight-headings: 400;
-
-/// Line-height for the headings
-/// @group abstracts
-/// @access public
-/// @type Number
-$font-line-height-headings: #{$font-size-default*3}px;
+$line-heights: (
+  -3: $base-line-height  * 0.5,
+  -2: $base-line-height * 0.75,
+  -1: $base-line-height * 0.75,
+  0: $base-line-height * 2,
+  1: $base-line-height * 2,
+  2: $base-line-height * 2,
+  3: $base-line-height * 1.33333,
+  4: $base-line-height * 1.33333,
+  5: $base-line-height * 2,
+  6: $base-line-height * 2,
+  7: $base-line-height * 2,
+  8: $base-line-height * 2,
+  9: $base-line-height * 2,
+  10: $base-line-height * 2,
+  11: $base-line-height * 2,
+  12: $base-line-height * 2,
+  13: $base-line-height * 2,
+);
 
 /// Gutter for the grid
 /// @group abstracts
 /// @access public
 /// @type Number
-$grid-gutter: #{$font-size-default*1.5}px;
+$grid-gutter: #{$base-line-height}rem;

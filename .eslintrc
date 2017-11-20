@@ -5,5 +5,10 @@
       2,
       "always"
     ]
+  },
+  "globals": {
+    "window": true,
+    "HTMLElement": true,
+    "HTMLCanvasElement": true
   }
 }
