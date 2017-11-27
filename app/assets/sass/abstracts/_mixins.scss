@@ -1,9 +1,4 @@
-@mixin type-setting($level: 0) {
-  font-size: modular-scale($level);
-  line-height: vr-line-height($level);
-}
-
-@mixin make-fb-grid-container() {
+@mixin fb-grid-container() {
   max-width: 1140px;
   padding-left: ($grid-gutter-width / 2);
   padding-right: ($grid-gutter-width / 2);
@@ -11,11 +6,28 @@
   margin-right: auto;
 }
 
-@mixin make-fb-grid-row() {
+@mixin fb-grid-row() {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
   align-content: flex-start;
+}
+
+@mixin make-fb-grid-container() {
+  #{grid-selector('container')} {
+    @include fb-grid-container();
+  }
+}
+
+@mixin make-fb-grid-row() {
+  #{grid-selector('row')} {
+    @include fb-grid-row();
+  }
+}
+
+@mixin type-setting($level: 0) {
+  font-size: modular-scale($level);
+  line-height: vr-line-height($level);
 }
