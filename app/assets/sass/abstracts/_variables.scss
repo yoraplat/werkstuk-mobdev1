@@ -144,8 +144,8 @@ $grid-prefix-names: (
   'container': '.fb-grid__container',
   'row': '.fb-grid__row',
   'column': '.fb-grid__col',
-  'offset': '.fb-grid__offset',
-  'order': '.fb-grid__order'
+  'offset': '.fb-grid__col-offset',
+  'order': '.fb-grid__col-order'
 );
 
 /// Breakpoints for grid

@@ -10,10 +10,8 @@
 /// @type Number
 @include make-fb-grid-row();
 
-/// Grid column: size 12
+/// Grid columns
 /// @group layout
 /// @access public
 /// @type Number
-.col-12 {
-  padding: 0 $grid-gutter-width;
-}
+@include make-fb-grid-columns()
