@@ -6,6 +6,6 @@
   @return #{ceil(map-get($modular-scales, $level))}rem;
 }
 
-@function grid-selector($key){
+@function grid-selector($key) {
   @return #{map-get($grid-prefix-names, $key)};
 }
