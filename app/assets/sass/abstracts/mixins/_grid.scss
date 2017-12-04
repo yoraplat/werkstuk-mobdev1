@@ -40,6 +40,15 @@
   }
 }
 
+@mixin make-fb-grid-columns-for-breakpoint($breakpoint-key, $breakpoint-val, $columns-amount: $grid-columns-amount, $gutter-width: $grid-gutter-width) {
+  $breakpoint-key-fix: if($breakpoint-key != 0, '-#{$breakpoint-key}', ''); 
+
+  #{map-get($prefix-names, 'column')}#{$breakpoint-key-fix}-#{$i} { 
+      flex-basis: #{($i/$columns-amount)*100%};
+      max-width: #{($i/$columns-amount)*100%};
+  } 
+}
+
 @mixin make-fb-grid-columns($columns-amount: $grid-columns-amount, $gutter-width: $grid-gutter-width) {
   %grid-column {
     position: relative;
@@ -59,5 +68,11 @@
 
   #{$list} {
     @extend %grid-column;
+  }
+
+  @each $breakpoint-key, $breakpoint-val in $breakpoints {
+    @for $i from 1 through $columns-amount {
+      $list: '#{$list}, #{map-get($prefix-names, 'column')}-#{$breakpoint-key}-#{$i}';      
+    }
   }
 }

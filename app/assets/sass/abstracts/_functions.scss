@@ -2,8 +2,8 @@
   @return #{map-get($modular-scales, $level)}rem;
 }
 
-@function vr-line-height($level) {
-  @return #{ceil(map-get($modular-scales, $level))}rem;
+@function line-height($level) {
+  @return #{ceil(map-get($line-heights, $level))}rem;
 }
 
 @function grid-selector($key) {
