@@ -1,0 +1,74 @@
+.profileContainer{
+    width: 95%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+
+    .profileleft{
+        display: inline-block;
+        max-width: 70%;
+        width: 70%;
+        p{
+            display: block;
+            width: 100%;
+            line-height: 18px;
+            margin: 0;
+        }
+
+        .firstname, .lastname{
+            font-size: 1.2em;
+        }
+        .follows{
+            p{
+                display: inline-block;
+                width: 50%;
+                margin: 20px auto 20px auto;
+            }
+        }
+    }
+
+    .profileRight{
+        display: inline-block;
+        max-width: 30%;
+        width: 30%;
+        img{
+            width: 100%;
+        }
+    }
+
+
+    ul{
+        width: 100%;
+        padding: 0;
+        li{
+            width: 100%;
+            list-style-type: none;
+            vertical-align: text-top;
+            margin-top: 10px;
+            p{
+                margin: 0;
+            }
+
+            .artworkTitle{
+                font-size: 1.2em;
+            }
+
+            .artworkDescription, .artworkLikes{
+                font-size: 0.8em;
+            }
+
+            img{
+                width: 50%;
+                display: inline-block;
+            }
+
+            .artworkRight{
+                display: inline-block;
+                width: 45%;
+                padding: 0 2.5%;
+                margin: 0 auto;
+            }
+        }
+    }
+}
+

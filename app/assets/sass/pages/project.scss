@@ -1,0 +1,41 @@
+.projectContainer{
+    display: block;
+    margin: 0 auto;
+    width: 95%;
+
+    hr{
+        width: 100;
+        display: block;
+        border:1px solid $white;
+    }
+
+    .projectAuthor{
+        margin-top: 20px;
+        line-height: 8px;
+        font-size: 0.8em;
+        margin-left: 10px;
+        padding-left: 5px;
+        border-left: 1px solid $blue-2;
+    }
+
+    .projectShowcase{
+        margin-top: 40px;
+        width: 100%;
+        img{
+            width: 100%;
+            margin: 10px 0;
+        }
+    }
+
+    .projectActions{
+        width: 100%;
+        text-align: center;
+        i{
+            display: inline-block;
+            width: 30px;
+            color: $blue-1;
+            margin: 0 auto;
+            padding: 0 5px;     
+        }
+    }
+}

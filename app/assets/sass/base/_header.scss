@@ -1,0 +1,39 @@
+html{
+    padding-top: 60px;
+    background-color: $blue-4;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    padding:5px 0;
+    background-color: $blue-3;
+    vertical-align: middle;
+    width: 100%;
+    margin-bottom: 100px;
+    div{        
+        display: inline-block;
+    }
+    .logo{
+        width: 18%;
+        padding-left: 2%;
+        img{
+            width: 40px;
+        }
+    }
+    .search{
+        width: 60%;
+        img{
+            width: 40px;
+        }
+    }
+
+    .hamburger{
+        width: 18%;
+        padding-right: 2%;
+        text-align: right;
+        img{
+            width: 40px;
+        }
+    }
+}

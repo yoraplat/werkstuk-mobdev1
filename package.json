@@ -7,7 +7,9 @@
   "author": "drdynscript <drdynscript@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "babel-register": "^6.26.0",
     "babel-runtime": "^6.26.0",
+    "gulp-ng-register": "0.0.5",
     "handlebars": "^4.0.11"
   },
   "devDependencies": {
