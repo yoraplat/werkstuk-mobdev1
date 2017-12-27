@@ -27,10 +27,31 @@ export class Student extends Person {
 
     this.studentNr = studentNr;
     this.emailSchool = emailSchool;
+    this.projects = [];
+    this.password = '';
   }
 
   toString () {
     const pStr = super.toString();
     return `${pStr}. I'm a student with number ${this.studentNr} and email ${this.emailSchool}!`;
+  }
+  personToJSON () {
+    return {
+      'firstname': this.firstName,
+      'surname': this.surName,
+      'dayofbirth': this.dayOfBirth,
+      'studentnumber': this.studentNr,
+      'email': this.emailSchool,
+      'projects': this.projects,
+      'password': this.password
+    };
+  }
+
+  addProject (project) {
+    this.projects.push(project);
+  }
+
+  addPersonToJson (jsonObject) {
+    jsonObject.persons['students'].push(this.personToJson);
   }
 }
