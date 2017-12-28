@@ -11,7 +11,8 @@
     "babel-runtime": "^6.26.0",
     "gulp-ng-register": "0.0.5",
     "handlebars": "^4.0.11",
-    "jsonfile": "^4.0.0"
+    "jsonfile": "^4.0.0",
+    "write-json-file": "^2.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

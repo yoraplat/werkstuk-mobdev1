@@ -7,20 +7,8 @@ import Navigation from './nav';
 
 class App {
   init () {
-    getJSON((function () {
-      let url = window.location.href;
-      url = url.replace('http://localhost:8080/', '');
-      url = (url === '') ? 'index.html' : url;
-      let jsonPage = (url === 'index.html') ? 'html/' : '';
-      jsonPage += 'json-data.json';
-      return jsonPage;
-    }()),
-    function (data) {
-      console.log(data);
-    },
-    function (error) {
-      console.log(error);
-    });
+    this._applicationDbContext = ApplicationDbContext; // Reference to the ApplicationDbContext object
+    this._applicationDbContext.init('ahs.nmd.stickynotes'); // Intialize the ApplicationDbContext with the connection string as parameter value
   }
 
   nav () {
@@ -81,6 +69,13 @@ class App {
     };
     const registerBtn = document.querySelector('#registerBtn');
     registerBtn.addEventListener('click', registerEvent);
+    window.addEventListener('keydown', onEnter);
+
+    function onEnter (e) {
+      if (e.keyCode === 13) {
+        registerEvent();
+      }
+    }
 
     function registerEvent () {
       const surName = document.querySelector('#surname');
@@ -142,26 +137,6 @@ class App {
       if (readyForSubmit === true) {
         registerBtn.href = 'login.html';
         let person = new Student(studentNumber.value, email.value, firstName.value, surName.value, dayOfBirth.value);
-        getJSON((function () {
-          let url = window.location.href;
-          url = url.replace('http://localhost:8080/', '');
-          url = (url === '') ? 'index.html' : url;
-          let jsonPage = (url === 'index.html') ? 'html/' : '';
-          jsonPage += 'json-data.json';
-          return jsonPage;
-        }()),
-        function (data) {
-          let personToJSON = person.personToJSON();
-          const jsonfile = require('jsonfile');
-          const file = './json-data1.json';
-          let obj = personToJSON;
-          jsonfile.writeFile(file, obj, {spaces: 2}, function (err) {
-            console.error(err);
-          });
-        },
-        function (error) {
-          console.log(error);
-        });
       }
     }
   }
@@ -169,28 +144,10 @@ class App {
 
 window.addEventListener('load', (ev) => {
   const app = new App();
-  app.init();
   app.nav();
   app.profileBtn();
   if (window.location.href === 'http://localhost:8080/html/register.html' || window.location.href === 'http://localhost:8080/html/register.html#') {
     app.register();
   }
+  app.init();
 });
-
-function getJSON (url, succesHandler, errorHandler) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('get', url, true);
-  xhr.responseType = 'json';
-  xhr.onload = function () {
-    if (xhr.status === 200) {
-      var data = (!xhr.responseType) ? JSON.parse(xhr.response) : xhr.response;
-      succesHandler && succesHandler(data);
-    } else {
-      errorHandler && errorHandler(xhr.status);
-    }
-  };
-  xhr.onerror = function () {
-    errorHandler && errorHandler('Netwerk error.');
-  };
-  xhr.send(null);
-}
