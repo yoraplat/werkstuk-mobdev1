@@ -56,6 +56,31 @@ class App {
     }
   }
 
+  login () {
+    const loginButton = document.querySelector('.loginBtn');
+    loginButton.addEventListener('click', loginEvent);
+
+    function loginEvent () {
+      
+    let emailInput = document.querySelector('#loginEmail').value;
+    let loginPassword = document.querySelector('#loginPassword').value;
+      this._applicationDbContext = ApplicationDbContext; // Reference to the ApplicationDbContext object
+        this._applicationDbContext.init('json'); // Intialize the ApplicationDbContext with the connection string as parameter value
+        for (let i = 0; i<= 3; i++){
+          if (this._applicationDbContext._dbData.persons.students[i].email == emailInput && this._applicationDbContext._dbData.persons.students[i].password == loginPassword){
+            console.log("Logged in succesfull");
+            window.localStorage.setItem('loggedIn', true);
+            App.profileBtn();
+            break;
+          }
+          else {
+            console.log("Wrong email or password");
+          }
+          
+        }
+    }
+  }
+
   register () {
     const errorArray = {
       'onlyLetters': 'Name must contain only letters.',
@@ -156,6 +181,7 @@ window.addEventListener('load', (ev) => {
     app.register();
   }
   app.init();
+  app.login();
 });
 
 /*
