@@ -1,0 +1,40 @@
+main{
+    width: 95%;
+    margin: 0 auto;
+    display: block;
+
+    .adress{
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        margin-top: 50px;
+        p{
+            width: 100%;
+            margin: 20px auto;
+            text-align: left;
+            font-size: 1.4em;
+        }
+    }
+
+    .socialMediaLinks > a{
+        width:32%;
+        display:inline-block;
+        margin:2%;
+        margin-left:auto;
+        margin-right:auto;
+        text-align: center;
+        i{
+            color: $blue-1;
+        }
+    }
+
+    .socialMediaLinks{
+        margin-top: 50px;
+        a:first-child{
+            text-align: left;
+        }
+        a:last-child{
+            text-align: right;
+        }
+    }
+}
