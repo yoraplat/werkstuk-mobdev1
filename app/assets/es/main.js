@@ -46,11 +46,15 @@ class App {
   }
 
   searchbar () {
-
+    this._applicationDbContext = ApplicationDbContext;
+    this._applicationDbContext.init('json');
+    console.log(this._applicationDbContext._dbData);
   }
 
   profileBtn () {
     const profileButton = document.querySelector('.profile-btn');
+    const profileButtonNav = document.querySelector('.profileBtnNav')
+    
     let url = window.location.href;
     url = url.replace('http://localhost:8080/', '');
     url = (url === '') ? 'index.html' : url;
@@ -58,9 +62,11 @@ class App {
     if (window.localStorage.getItem('loggedIn') !== null) {
       profilePage += 'profile.html';
       profileButton.setAttribute('href', profilePage);
+      profileButtonNav.setAttribute('href', profilePage)
     } else {
       profilePage += 'login.html';
       profileButton.setAttribute('href', profilePage);
+      profileButtonNav.setAttribute('href', profilePage)
     }
   }
 
@@ -320,20 +326,20 @@ var ApplicationDbContext = {
         }
       ],
       "pages": [
-          {
-              "pageName": "Home",
-              "title": "Showcase"
-          }
+        {
+          "pageName": "Home",
+          "title": "Showcase"
+        }
             
-        ],
+      ],
         "blogposts": [
-          {
-            "title": "First Post",
-            "author": "GDM",
-            "postDate": "10/11/2017",
-            "postContent": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod beatae similique sed quisquam error neque fugit sapiente aliquid doloremque illo ipsum atque nulla laborum, cupiditate doloribus. Modi odit, laboriosam nam consequuntur ea aut eveniet iste placeat saepe. Laudantium commodi provident incidunt molestias possimus in atque et vel ad neque fugiat assumenda quia alias nisi voluptate rem non doloremque velit quidem voluptas nam obcaecati dignissimos, maiores veritatis. Error vero velit consequatur eius similique reprehenderit voluptatibus voluptatem beatae, a nostrum aperiam architecto!"
-          }
-        ]
+        {
+          "title": "First Post",
+          "author": "GDM",
+          "postDate": "10/11/2017",
+          "postContent": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod beatae similique sed quisquam error neque fugit sapiente aliquid doloremque illo ipsum atque nulla laborum, cupiditate doloribus. Modi odit, laboriosam nam consequuntur ea aut eveniet iste placeat saepe. Laudantium commodi provident incidunt molestias possimus in atque et vel ad neque fugiat assumenda quia alias nisi voluptate rem non doloremque velit quidem voluptas nam obcaecati dignissimos, maiores veritatis. Error vero velit consequatur eius similique reprehenderit voluptatibus voluptatem beatae, a nostrum aperiam architecto!"
+        }
+      ]
     }
     // The data as value of the previous key aka connection string
     // Get the sored data with the key. If the data is not present in the localstorage --> store the previous data from the variable _dbData into the localstorage via the connection string or namespace
