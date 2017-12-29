@@ -11,6 +11,10 @@ class App {
     this._applicationDbContext.init('json'); // Intialize the ApplicationDbContext with the connection string as parameter value
   }
 
+  loadJson () {
+    
+  }
+
   nav () {
     let navClicks = 1;
     let navState;
@@ -57,7 +61,7 @@ class App {
   }
 
   login () {
-    const loginButton = document.querySelector('.loginBtn');
+    let loginButton = document.querySelector('.loginBtn');
     loginButton.addEventListener('click', loginEvent);
 
     function loginEvent () {
@@ -70,6 +74,7 @@ class App {
           if (this._applicationDbContext._dbData.persons.students[i].email == emailInput && this._applicationDbContext._dbData.persons.students[i].password == loginPassword){
             console.log("Logged in succesfull");
             window.localStorage.setItem('loggedIn', true);
+            window.location.href = window.location.href.replace("login.html", "profile.html");
             App.profileBtn();
             break;
           }
@@ -194,12 +199,97 @@ var ApplicationDbContext = {
   'init': function (connectionStr) {
     this._connectionStr = connectionStr; // Connection String to the key in the localstorage
     this._dbData = {
-      'persons':
+      "persons": {
+        "students": [
           {
-            'students':
-              []
+            "firstname": "Koen",
+            "surname": "Janssens",
+            "dayofbirth": "22/03/1997",
+            "studentnumber": "54523",
+            "traject": "Crossmedia-ontwerp",
+            "email": "yoraplat@arteveldehs.be",
+            "projects": [
+              1,
+              3
+            ],
+            "password": "secret",
+            "profilePicture": "",
+            "startStudies": "20/08/2016"
+          },
+          {
+            "firstname": "Bert",
+            "surname": "Braak",
+            "dayofbirth": "27/05/1960",
+            "studentnumber": "12356",
+            "traject": "Multimedia-productie",
+            "email": "ysdlat@arteveldehs.be",
+            "projects": [
+              2.4
+            ],
+            "password": "geheimpje",
+            "profilePicture": "",
+            "startStudies": "20/08/2015"
           }
-    }; // The data as value of the previous key aka connection string
+        ],
+        "administrator": [
+          {
+            "firstname": "admin",
+            "email": "admin@arteveldehs.be",
+            "password": "little-secret"
+          }
+        ]
+      },
+      "projects": [
+        {
+          "project": 1,
+          "title": "Kinderboerderij",
+          "description": "Als eindwerk voor de tweede jaar ontwikkelden de studenten Graphic Design een huisstijl voor een lokale kinderboerderij. Jules Van Rijsselberge ontwierp een sterk, uitgepuurd logo. Een functioneel uithangbord voor de organisatie. Hij combineert in zijn ontwerp een strakke vormgeving met een spontane, kindvriendelijke illustratiestijl gebaseerd op    een digitale wasco-techniek.",
+          "imgSrc": [
+            "http://www.gdm.gent/trots/assets/projects/kinderboerderij/1.logo.jpg",
+            "http://www.gdm.gent/trots/assets/projects/kinderboerderij/3.illustraties.jpg",
+            "http://www.gdm.gent/trots/assets/projects/kinderboerderij/5.schetsposter.jpg"
+          ],
+          "course": "Graphic Design"
+        },
+        {
+          "project": 2,
+          "title": "Didactische plaat",
+          "description": "Ontwerp van een didactische plaat met als onderwerp 'classic cars'.",
+          "imgSrc": [
+            "http://www.gdm.gent/trots/assets/projects/bmw/1.visual.png",
+            "http://www.gdm.gent/trots/assets/projects/bmw/2.poster.png"
+          ],
+          "course": "Graphic Design"
+        },
+        {
+          "project": 3,
+          "title": "Melk Campagne",
+          "description": "Opdracht: bedenkt een nieuwe merknaam en ontwerp de verpakkingen voor 3 soorten melk. Vol, halfvol en melk met een speciaal smaakje. Er werd een huisstijl uitgewerkt die tevens de basis vormde voor een bijhorende reclamecampagne.",
+          "imgSrc": [
+            "http://www.gdm.gent/trots/assets/projects/milk/3_halfvolverpakking.png",
+            "http://www.gdm.gent/trots/assets/projects/milk/5_appmockup.png"
+          ],
+          "course": "Photo Design"
+        },
+        {
+          "project": 4,
+          "title": "Dagboeknotities",
+          "description": "In deze opdracht staat de verwondering centraal. In de briefing staat: 'laat je verwonderen door de kleine dingen en gebeurtenissen rond je. Kijk door een lens zoals een kind en ontdek de wereld om je heen'",
+          "imgSrc": [
+            "http://www.gdm.gent/trots/assets/projects/dagboeknotities/4.png",
+            "http://www.gdm.gent/trots/assets/projects/dagboeknotities/5.png"
+          ],
+          "course": "Photo Design"
+        }
+      ],
+      "pages": [
+          {
+              "pageName": "Home",
+              "title": "Showcase"
+          }
+            
+        ]
+    };// The data as value of the previous key aka connection string
     // Get the sored data with the key. If the data is not present in the localstorage --> store the previous data from the variable _dbData into the localstorage via the connection string or namespace
     if (window.localStorage.getItem(this._connectionStr) != null) {
       this._dbData = JSON.parse(window.localStorage.getItem(this._connectionStr));
