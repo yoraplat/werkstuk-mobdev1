@@ -45,6 +45,10 @@ class App {
     });
   }
 
+  searchbar () {
+
+  }
+
   profileBtn () {
     const profileButton = document.querySelector('.profile-btn');
     let url = window.location.href;
@@ -70,7 +74,7 @@ class App {
     let loginPassword = document.querySelector('#loginPassword').value;
       this._applicationDbContext = ApplicationDbContext; // Reference to the ApplicationDbContext object
         this._applicationDbContext.init('json'); // Intialize the ApplicationDbContext with the connection string as parameter value
-        for (let i = 0; i<= 3; i++){
+        for (let i = 0; i<= this._applicationDbContext._dbData.persons.students.length; i++){
           if (this._applicationDbContext._dbData.persons.students[i].email == emailInput && this._applicationDbContext._dbData.persons.students[i].password == loginPassword){
             console.log("Logged in succesfull");
             window.localStorage.setItem('loggedIn', true);
@@ -182,6 +186,7 @@ window.addEventListener('load', (ev) => {
   const app = new App();
   app.nav();
   app.profileBtn();
+  app.searchbar();
   if (window.location.href === 'http://localhost:8080/html/register.html' || window.location.href === 'http://localhost:8080/html/register.html#') {
     app.register();
   }
@@ -214,7 +219,13 @@ var ApplicationDbContext = {
             ],
             "password": "secret",
             "profilePicture": "",
-            "startStudies": "20/08/2016"
+            "startStudies": "20/08/2016",
+            "following": [
+              {
+                "user": "ysdlat@arteveldehs.be"
+              }
+            ],
+            "followers": "ysdlat@arteveldehs.be"
           },
           {
             "firstname": "Bert",
@@ -228,7 +239,13 @@ var ApplicationDbContext = {
             ],
             "password": "geheimpje",
             "profilePicture": "",
-            "startStudies": "20/08/2015"
+            "startStudies": "20/08/2015",
+            "following": [
+              {
+                "user": "yoraplat@arteveldehs.be"
+              }
+            ],
+            "followers": "yoraplat@arteveldehs.be"
           }
         ],
         "administrator": [
@@ -249,7 +266,12 @@ var ApplicationDbContext = {
             "http://www.gdm.gent/trots/assets/projects/kinderboerderij/3.illustraties.jpg",
             "http://www.gdm.gent/trots/assets/projects/kinderboerderij/5.schetsposter.jpg"
           ],
-          "course": "Graphic Design"
+          "course": "Graphic Design",
+          "likes": [
+            {
+              "user": "ysdlat@arteveldehs.be"
+            }
+          ]
         },
         {
           "project": 2,
@@ -259,7 +281,12 @@ var ApplicationDbContext = {
             "http://www.gdm.gent/trots/assets/projects/bmw/1.visual.png",
             "http://www.gdm.gent/trots/assets/projects/bmw/2.poster.png"
           ],
-          "course": "Graphic Design"
+          "course": "Graphic Design",
+          "likes": [
+            {
+              "user": "ysdlat@arteveldehs.be"
+            }
+          ]
         },
         {
           "project": 3,
@@ -269,7 +296,12 @@ var ApplicationDbContext = {
             "http://www.gdm.gent/trots/assets/projects/milk/3_halfvolverpakking.png",
             "http://www.gdm.gent/trots/assets/projects/milk/5_appmockup.png"
           ],
-          "course": "Photo Design"
+          "course": "Photo Design",
+          "likes": [
+            {
+              "user": "ysdlat@arteveldehs.be"
+            }
+          ]
         },
         {
           "project": 4,
@@ -279,7 +311,12 @@ var ApplicationDbContext = {
             "http://www.gdm.gent/trots/assets/projects/dagboeknotities/4.png",
             "http://www.gdm.gent/trots/assets/projects/dagboeknotities/5.png"
           ],
-          "course": "Photo Design"
+          "course": "Photo Design",
+          "likes": [
+            {
+              "user": "ysdlat@arteveldehs.be"
+            }
+          ]
         }
       ],
       "pages": [
