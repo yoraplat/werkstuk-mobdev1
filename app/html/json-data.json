@@ -88,5 +88,13 @@
           "title": "Showcase"
       }
         
+    ],
+    "blogposts": [
+      {
+        "title": "First Post",
+        "author": "GDM",
+        "postDate": "10/11/2017",
+        "postContent": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod beatae similique sed quisquam error neque fugit sapiente aliquid doloremque illo ipsum atque nulla laborum, cupiditate doloribus. Modi odit, laboriosam nam consequuntur ea aut eveniet iste placeat saepe. Laudantium commodi provident incidunt molestias possimus in atque et vel ad neque fugiat assumenda quia alias nisi voluptate rem non doloremque velit quidem voluptas nam obcaecati dignissimos, maiores veritatis. Error vero velit consequatur eius similique reprehenderit voluptatibus voluptatem beatae, a nostrum aperiam architecto!"
+      }
     ]
-};
+}
