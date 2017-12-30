@@ -3,12 +3,26 @@
 
 import { Person, Student } from './models';
 import { GridOverlayElement } from './grid';
-import Navigation from './nav';
 
 class App {
   init () {
     this._applicationDbContext = ApplicationDbContext; // Reference to the ApplicationDbContext object
     this._applicationDbContext.init('json'); // Intialize the ApplicationDbContext with the connection string as parameter value
+  }
+
+  index () {
+    let ul = document.querySelector('.showcase');
+    let liItems = ul.childNodes;
+    console.log(liItems);
+    for (let i = 1; i < liItems.length; i++) {
+      let aNode = liItems[i].childNodes[0];
+      let project = aNode.attributes[0].nodeValue;
+      liItems[i].setAttribute('onclick', (function () {
+        window.localStorage.setItem('project', project);
+        let url = (window.location.href === 'http://localhost:8080') ? window.location.href : 'http://localhost:8080';
+        //window.location.href = url + '/project.html';
+      })());
+    }
   }
 
   loadJson () {
@@ -18,6 +32,7 @@ class App {
     url = url.replace('http://localhost:8080/', '');
     url = url.replace('/', '');
     let json = JSON.parse(window.localStorage.getItem('json'));
+    let user = JSON.parse(window.localStorage.getItem('user'));
     switch (url) {
       case 'index':
         indexContent();
@@ -25,18 +40,28 @@ class App {
       case 'blog':
         blogContent();
         break;
+      case 'profile':
+        profileContent();
+        break;
+      case 'contact':
+        contactContent();
+        break;
+      case 'project':
+        projectContent();
+        break;
     }
     function indexContent () {
       let title = document.querySelector('.title__index');
       title.innerHTML = json.pages.index.title;
       let showcase = document.querySelector('.showcase');
-      let lengthShowcase = (json.projects.length > 10) ? 10 : json.projects.length;
+      let lengthShowcase = (json.projects.length > 12) ? 10 : json.projects.length;
       for (let i = 0; i < lengthShowcase; i++) {
         let project = json.projects[i];
         let imgSrc = project.imgSrc[0];
         let liNode = document.createElement('li');
         let aNode = document.createElement('a');
         let imgNode = document.createElement('img');
+        aNode.dataset.project = json.projects[i].project;
         imgNode.src = imgSrc;
         aNode.appendChild(imgNode);
         liNode.appendChild(aNode);
@@ -45,20 +70,111 @@ class App {
     }
 
     function blogContent () {
-      let title = document.querySelector('.blogpostTitle');
-      let author = document.querySelector('#PostAuthor');
-      let date = document.querySelector('#postDate');
-      let content = document.querySelector('.postContent');
+      const title = document.querySelector('.blogpostTitle');
+      const author = document.querySelector('#PostAuthor');
+      const date = document.querySelector('#postDate');
+      const content = document.querySelector('.postContent');
       title.innerHTML = json.pages.blog.title;
       author.innerHTML = json.pages.blog.author;
       date.innerHTML = json.pages.blog.postDate;
       content.innerHTML = json.pages.blog.postContent;
     }
+
+    function profileContent () {
+      const firstname = document.querySelector('.firstname');
+      const surname = document.querySelector('.lastname');
+      const following = document.querySelector('.following-amount');
+      const followers = document.querySelector('.followers-amount');
+      const profilePicture = document.querySelector('.profileRight');
+      const artwork = document.querySelector('.artwork');
+      profilePicture.src = (user.profilePicture === '') ? '../assets/images/profile-pictures/male.jpg' : user.profilePicture;
+      firstname.innerHTML = user.firstname;
+      surname.innerHTML = user.surname;
+      followers.innerHTML = user.followers.length;
+      following.innerHTML = user.following.length;
+      for (let i = 0; i < user.projects.length; i++) {
+        for (let j = 0; j < json.projects.length; j++) {
+          if (user.projects[i] === json.projects[j].project) {
+            let liNode = document.createElement('li');
+            let imgNode = document.createElement('img');
+            imgNode.src = json.projects[j].imgSrc[0];
+            let divNode = document.createElement('div');
+            divNode.setAttribute('class', 'artworkRight');
+            let pNodeTitle = document.createElement('p');
+            pNodeTitle.innerHTML = json.projects[j].title;
+            pNodeTitle.setAttribute('class', 'artworkTitle');
+            let pNodeDescription = document.createElement('p');
+            pNodeDescription.innerHTML = json.projects[j].description;
+            pNodeDescription.setAttribute('class', 'artworkDescription');
+            let pNodeLikes = document.createElement('p');
+            pNodeLikes.innerHTML = json.projects[j].likes.length + ' Likes';
+            pNodeLikes.setAttribute('class', 'artworkLikes');
+            divNode.appendChild(pNodeTitle);
+            divNode.appendChild(pNodeDescription);
+            divNode.appendChild(pNodeLikes);
+            liNode.appendChild(imgNode);
+            liNode.appendChild(divNode);
+            artwork.appendChild(liNode);
+          }
+        }
+      }
+    }
+
+    function contactContent () {
+      const title = document.querySelector('.title__Contact');
+      const adress = document.querySelector('.adress');
+      title.innerHTML = json.pages.contact.title;
+      let pNodeCampus = document.createElement('p');
+      pNodeCampus.innerHTML = json.pages.contact.campus;
+      let pNodeAdress = document.createElement('p');
+      pNodeAdress.innerHTML = json.pages.contact.adress;
+      let pNodeTel = document.createElement('p');
+      pNodeTel.innerHTML = json.pages.contact.tel;
+      adress.appendChild(pNodeCampus);
+      adress.appendChild(pNodeAdress);
+      adress.appendChild(pNodeTel);
+    }
+
+    function projectContent () {
+      const title = document.querySelector('.title__Project');
+      const description = document.querySelector('.description');
+      const author = document.querySelector('.projectAuthor');
+      const artwork = document.querySelector('.projectShowcase');
+      let project;
+      for (let i = 0; i < json.projects.length; i++) {
+        if (window.localStorage.getItem('project') === json.projects[i].project.toString()) {
+          project = json.projects[i];
+        }
+      }
+
+      title.innerHTML = project.title;
+      description.innerHTML = project.description;
+      for (let i = 0; i < json.persons.students.length; i++) {
+        for (let j = 0; j < json.persons.students[i].projects.length; j++) {
+          if (project.project === json.persons.students[i].projects[j]) {
+            let pNodeName = document.createElement('p');
+            pNodeName.innerHTML = json.persons.students[i].firstname + ' ' + json.persons.students[i].surname;
+            let pNodeTraject = document.createElement('p');
+            pNodeTraject.innerHTML = json.persons.students[i].traject;
+            let pNodeYear = document.createElement('p');
+            pNodeYear.innerHTML = json.persons.students[i].year;
+            author.appendChild(pNodeName);
+            author.appendChild(pNodeTraject);
+            author.appendChild(pNodeYear);
+          }
+        }
+      }
+      for (let i = 0; i < project.imgSrc.length; i++) {
+        let img = project.imgSrc[i];
+        let imgNode = document.createElement('img');
+        imgNode.setAttribute('src', img);
+        artwork.appendChild(imgNode);
+      }
+    }
   }
 
   nav () {
     let navClicks = 1;
-    let navState;
     const hamburger = document.querySelector('.hamburger img');
     const cross = document.querySelector('.cross');
     const pageContent = document.querySelector('#container');
@@ -98,14 +214,13 @@ class App {
 
     let url = window.location.href;
     url = url.replace('http://localhost:8080/', '');
-    url = (url === '') ? 'index.html' : url;
-    let profilePage = (url === 'index.html') ? 'html/' : '';
+    let profilePage = (url === '') ? 'index.html' : url;
     if (window.localStorage.getItem('loggedIn')) {
-      profilePage += 'profile.html';
+      profilePage = 'profile.html';
       profileButton.setAttribute('href', profilePage);
       profileButtonNav.setAttribute('href', profilePage);
     } else {
-      profilePage += 'login.html';
+      profilePage = 'login.html';
       profileButton.setAttribute('href', profilePage);
       profileButtonNav.setAttribute('href', profilePage);
     }
@@ -124,8 +239,10 @@ class App {
         if (this._applicationDbContext._dbData.persons.students[i].email === emailInput && this._applicationDbContext._dbData.persons.students[i].password === loginPassword) {
           console.log('Logged in succesfull');
           window.localStorage.setItem('loggedIn', true);
-          let userData = this._applicationDbContext._dbData.persons.students[i];
+          let userData = JSON.parse(window.localStorage.getItem('json'));
+          userData = JSON.stringify(userData.persons.students[i]);
           window.localStorage.setItem('user', userData);
+          window.location.href = window.location.href.replace('#', '');
           window.location.href = window.location.href.replace('login.html', 'profile.html');
           App.profileBtn();
           break;
@@ -234,13 +351,16 @@ window.addEventListener('load', (ev) => {
   app.profileBtn();
   app.searchbar();
   app.loadJson();
-  if (window.location.href === 'http://localhost:8080/html/register.html' || window.location.href === 'http://localhost:8080/html/register.html#') {
+  if (window.location.href === 'http://localhost:8080/register.html' || window.location.href === 'http://localhost:8080/register.html#') {
     app.register();
   }
-  if (window.location.href === 'http://localhost:8080/html/login.html' || window.location.href === 'http://localhost:8080/html/login.html#') {
+  if (window.location.href === 'http://localhost:8080/login.html' || window.location.href === 'http://localhost:8080/login.html#') {
     app.login();
   }
   app.init();
+  if (window.location.href === 'http://localhost:8080/index.html' || window.location.href === 'http://localhost:8080') {
+    app.index();
+  }
 });
 
 /*
@@ -269,15 +389,17 @@ var ApplicationDbContext = {
             'password': 'secret',
             'profilePicture': '',
             'startStudies': '20/08/2016',
+            'year': '2de jaar',
             'following': [
               {
                 'user': 'ysdlat@arteveldehs.be'
               }
             ],
-            'followers':
-            {
-              'user': 'ysdlat@arteveldehs.be'
-            }
+            'followers': [
+              {
+                'user': 'ysdlat@arteveldehs.be'
+              }
+            ]
           },
           {
             'firstname': 'Bert',
@@ -287,20 +409,23 @@ var ApplicationDbContext = {
             'traject': 'Multimedia-productie',
             'email': 'ysdlat@arteveldehs.be',
             'projects': [
-              2.4
+              2,
+              4
             ],
             'password': 'geheimpje',
             'profilePicture': '',
             'startStudies': '20/08/2015',
+            'year': '3de jaar',
             'following': [
               {
                 'user': 'yoraplat@arteveldehs.be'
               }
             ],
-            'followers':
-            {
-              'user': 'yoraplat@arteveldehs.be'
-            }
+            'followers': [
+              {
+                'user': 'yoraplat@arteveldehs.be'
+              }
+            ]
           }
         ],
         'administrator': [
@@ -385,6 +510,13 @@ var ApplicationDbContext = {
           'author': 'GDM',
           'postDate': '10/11/2017',
           'postContent': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod beatae similique sed quisquam error neque fugit sapiente aliquid doloremque illo ipsum atque nulla laborum, cupiditate doloribus. Modi odit, laboriosam nam consequuntur ea aut eveniet iste placeat saepe. Laudantium commodi provident incidunt molestias possimus in atque et vel ad neque fugiat assumenda quia alias nisi voluptate rem non doloremque velit quidem voluptas nam obcaecati dignissimos, maiores veritatis. Error vero velit consequatur eius similique reprehenderit voluptatibus voluptatem beatae, a nostrum aperiam architecto!'
+        },
+        'contact': {
+          'pageName': 'Contact',
+          'title': 'Contact',
+          'campus': 'Campus Mariakerke',
+          'adress': 'Industrieweg 232, 9030 Gent-Mariakerke',
+          'tel': 'Tel.: 09 216 36 16'
         }
       },
       'blogposts': [
@@ -422,7 +554,14 @@ var ApplicationDbContext = {
         'studentnumber': person.studentNr,
         'email': person.emailSchool,
         'projects': person.projects,
-        'password': person.password
+        'password': person.password,
+        'profilePicture': '',
+        'startStudies': '',
+        'year': '',
+        'following': [
+        ],
+        'followers': [
+        ]
       };
       this._dbData.persons.students.push(personToJson); // Add User note to the array
       this.save(); // Save this._dbData to the localstorage
