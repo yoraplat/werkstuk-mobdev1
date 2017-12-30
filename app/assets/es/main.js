@@ -12,7 +12,48 @@ class App {
   }
 
   loadJson () {
-    
+    let url = window.location.href;
+    url = url.replace('.html', '');
+    url = (url === 'http://localhost:8080/') ? 'index' : url;
+    url = url.replace('http://localhost:8080/', '');
+    url = url.replace('/', '');
+    let json = JSON.parse(window.localStorage.getItem('json'));
+    switch (url) {
+      case 'index':
+        indexContent();
+        break;
+      case 'blog':
+        blogContent();
+        break;
+    }
+    function indexContent () {
+      let title = document.querySelector('.title__index');
+      title.innerHTML = json.pages.index.title;
+      let showcase = document.querySelector('.showcase');
+      let lengthShowcase = (json.projects.length > 10) ? 10 : json.projects.length;
+      for (let i = 0; i < lengthShowcase; i++) {
+        let project = json.projects[i];
+        let imgSrc = project.imgSrc[0];
+        let liNode = document.createElement('li');
+        let aNode = document.createElement('a');
+        let imgNode = document.createElement('img');
+        imgNode.src = imgSrc;
+        aNode.appendChild(imgNode);
+        liNode.appendChild(aNode);
+        showcase.appendChild(liNode);
+      }
+    }
+
+    function blogContent () {
+      let title = document.querySelector('.blogpostTitle');
+      let author = document.querySelector('#PostAuthor');
+      let date = document.querySelector('#postDate');
+      let content = document.querySelector('.postContent');
+      title.innerHTML = json.pages.blog.title;
+      author.innerHTML = json.pages.blog.author;
+      date.innerHTML = json.pages.blog.postDate;
+      content.innerHTML = json.pages.blog.postContent;
+    }
   }
 
   nav () {
@@ -53,46 +94,45 @@ class App {
 
   profileBtn () {
     const profileButton = document.querySelector('.profile-btn');
-    const profileButtonNav = document.querySelector('.profileBtnNav')
-    
+    const profileButtonNav = document.querySelector('.profileBtnNav');
+
     let url = window.location.href;
     url = url.replace('http://localhost:8080/', '');
     url = (url === '') ? 'index.html' : url;
     let profilePage = (url === 'index.html') ? 'html/' : '';
-    if (window.localStorage.getItem('loggedIn') !== null) {
+    if (window.localStorage.getItem('loggedIn')) {
       profilePage += 'profile.html';
       profileButton.setAttribute('href', profilePage);
-      profileButtonNav.setAttribute('href', profilePage)
+      profileButtonNav.setAttribute('href', profilePage);
     } else {
       profilePage += 'login.html';
       profileButton.setAttribute('href', profilePage);
-      profileButtonNav.setAttribute('href', profilePage)
+      profileButtonNav.setAttribute('href', profilePage);
     }
   }
 
   login () {
-    let loginButton = document.querySelector('.loginBtn');
+    const loginButton = document.querySelector('.loginBtn');
     loginButton.addEventListener('click', loginEvent);
 
     function loginEvent () {
-      
-    let emailInput = document.querySelector('#loginEmail').value;
-    let loginPassword = document.querySelector('#loginPassword').value;
+      let emailInput = document.querySelector('#loginEmail').value;
+      let loginPassword = document.querySelector('#loginPassword').value;
       this._applicationDbContext = ApplicationDbContext; // Reference to the ApplicationDbContext object
-        this._applicationDbContext.init('json'); // Intialize the ApplicationDbContext with the connection string as parameter value
-        for (let i = 0; i<= this._applicationDbContext._dbData.persons.students.length; i++){
-          if (this._applicationDbContext._dbData.persons.students[i].email == emailInput && this._applicationDbContext._dbData.persons.students[i].password == loginPassword){
-            console.log("Logged in succesfull");
-            window.localStorage.setItem('loggedIn', true);
-            window.location.href = window.location.href.replace("login.html", "profile.html");
-            App.profileBtn();
-            break;
-          }
-          else {
-            console.log("Wrong email or password");
-          }
-          
+      this._applicationDbContext.init('json'); // Intialize the ApplicationDbContext with the connection string as parameter value
+      for (let i = 0; i <= this._applicationDbContext._dbData.persons.students.length; i++) {
+        if (this._applicationDbContext._dbData.persons.students[i].email === emailInput && this._applicationDbContext._dbData.persons.students[i].password === loginPassword) {
+          console.log('Logged in succesfull');
+          window.localStorage.setItem('loggedIn', true);
+          let userData = this._applicationDbContext._dbData.persons.students[i];
+          window.localStorage.setItem('user', userData);
+          window.location.href = window.location.href.replace('login.html', 'profile.html');
+          App.profileBtn();
+          break;
+        } else {
+          console.log('Wrong email or password');
         }
+      }
     }
   }
 
@@ -193,11 +233,14 @@ window.addEventListener('load', (ev) => {
   app.nav();
   app.profileBtn();
   app.searchbar();
+  app.loadJson();
   if (window.location.href === 'http://localhost:8080/html/register.html' || window.location.href === 'http://localhost:8080/html/register.html#') {
     app.register();
   }
+  if (window.location.href === 'http://localhost:8080/html/login.html' || window.location.href === 'http://localhost:8080/html/login.html#') {
+    app.login();
+  }
   app.init();
-  app.login();
 });
 
 /*
@@ -210,137 +253,149 @@ var ApplicationDbContext = {
   'init': function (connectionStr) {
     this._connectionStr = connectionStr; // Connection String to the key in the localstorage
     this._dbData = {
-      "persons": {
-        "students": [
+      'persons': {
+        'students': [
           {
-            "firstname": "Koen",
-            "surname": "Janssens",
-            "dayofbirth": "22/03/1997",
-            "studentnumber": "54523",
-            "traject": "Crossmedia-ontwerp",
-            "email": "yoraplat@arteveldehs.be",
-            "projects": [
+            'firstname': 'Koen',
+            'surname': 'Janssens',
+            'dayofbirth': '22/03/1997',
+            'studentnumber': '54523',
+            'traject': 'Crossmedia-ontwerp',
+            'email': 'yoraplat@arteveldehs.be',
+            'projects': [
               1,
               3
             ],
-            "password": "secret",
-            "profilePicture": "",
-            "startStudies": "20/08/2016",
-            "following": [
+            'password': 'secret',
+            'profilePicture': '',
+            'startStudies': '20/08/2016',
+            'following': [
               {
-                "user": "ysdlat@arteveldehs.be"
+                'user': 'ysdlat@arteveldehs.be'
               }
             ],
-            "followers": "ysdlat@arteveldehs.be"
+            'followers':
+            {
+              'user': 'ysdlat@arteveldehs.be'
+            }
           },
           {
-            "firstname": "Bert",
-            "surname": "Braak",
-            "dayofbirth": "27/05/1960",
-            "studentnumber": "12356",
-            "traject": "Multimedia-productie",
-            "email": "ysdlat@arteveldehs.be",
-            "projects": [
+            'firstname': 'Bert',
+            'surname': 'Braak',
+            'dayofbirth': '27/05/1960',
+            'studentnumber': '12356',
+            'traject': 'Multimedia-productie',
+            'email': 'ysdlat@arteveldehs.be',
+            'projects': [
               2.4
             ],
-            "password": "geheimpje",
-            "profilePicture": "",
-            "startStudies": "20/08/2015",
-            "following": [
+            'password': 'geheimpje',
+            'profilePicture': '',
+            'startStudies': '20/08/2015',
+            'following': [
               {
-                "user": "yoraplat@arteveldehs.be"
+                'user': 'yoraplat@arteveldehs.be'
               }
             ],
-            "followers": "yoraplat@arteveldehs.be"
+            'followers':
+            {
+              'user': 'yoraplat@arteveldehs.be'
+            }
           }
         ],
-        "administrator": [
+        'administrator': [
           {
-            "firstname": "admin",
-            "email": "admin@arteveldehs.be",
-            "password": "little-secret"
+            'firstname': 'admin',
+            'email': 'admin@arteveldehs.be',
+            'password': 'little-secret'
           }
         ]
       },
-      "projects": [
+      'projects': [
         {
-          "project": 1,
-          "title": "Kinderboerderij",
-          "description": "Als eindwerk voor de tweede jaar ontwikkelden de studenten Graphic Design een huisstijl voor een lokale kinderboerderij. Jules Van Rijsselberge ontwierp een sterk, uitgepuurd logo. Een functioneel uithangbord voor de organisatie. Hij combineert in zijn ontwerp een strakke vormgeving met een spontane, kindvriendelijke illustratiestijl gebaseerd op    een digitale wasco-techniek.",
-          "imgSrc": [
-            "http://www.gdm.gent/trots/assets/projects/kinderboerderij/1.logo.jpg",
-            "http://www.gdm.gent/trots/assets/projects/kinderboerderij/3.illustraties.jpg",
-            "http://www.gdm.gent/trots/assets/projects/kinderboerderij/5.schetsposter.jpg"
+          'project': 1,
+          'title': 'Kinderboerderij',
+          'description': 'Als eindwerk voor de tweede jaar ontwikkelden de studenten Graphic Design een huisstijl voor een lokale kinderboerderij. Jules Van Rijsselberge ontwierp een sterk, uitgepuurd logo. Een functioneel uithangbord voor de organisatie. Hij combineert in zijn ontwerp een strakke vormgeving met een spontane, kindvriendelijke illustratiestijl gebaseerd op    een digitale wasco-techniek.',
+          'imgSrc': [
+            'http://www.gdm.gent/trots/assets/projects/kinderboerderij/1.logo.jpg',
+            'http://www.gdm.gent/trots/assets/projects/kinderboerderij/3.illustraties.jpg',
+            'http://www.gdm.gent/trots/assets/projects/kinderboerderij/5.schetsposter.jpg'
           ],
-          "course": "Graphic Design",
-          "likes": [
+          'course': 'Graphic Design',
+          'likes': [
             {
-              "user": "ysdlat@arteveldehs.be"
+              'user': 'ysdlat@arteveldehs.be'
             }
           ]
         },
         {
-          "project": 2,
-          "title": "Didactische plaat",
-          "description": "Ontwerp van een didactische plaat met als onderwerp 'classic cars'.",
-          "imgSrc": [
-            "http://www.gdm.gent/trots/assets/projects/bmw/1.visual.png",
-            "http://www.gdm.gent/trots/assets/projects/bmw/2.poster.png"
+          'project': 2,
+          'title': 'Didactische plaat',
+          'description': "Ontwerp van een didactische plaat met als onderwerp 'classic cars'.",
+          'imgSrc': [
+            'http://www.gdm.gent/trots/assets/projects/bmw/1.visual.png',
+            'http://www.gdm.gent/trots/assets/projects/bmw/2.poster.png'
           ],
-          "course": "Graphic Design",
-          "likes": [
+          'course': 'Graphic Design',
+          'likes': [
             {
-              "user": "ysdlat@arteveldehs.be"
+              'user': 'ysdlat@arteveldehs.be'
             }
           ]
         },
         {
-          "project": 3,
-          "title": "Melk Campagne",
-          "description": "Opdracht: bedenkt een nieuwe merknaam en ontwerp de verpakkingen voor 3 soorten melk. Vol, halfvol en melk met een speciaal smaakje. Er werd een huisstijl uitgewerkt die tevens de basis vormde voor een bijhorende reclamecampagne.",
-          "imgSrc": [
-            "http://www.gdm.gent/trots/assets/projects/milk/3_halfvolverpakking.png",
-            "http://www.gdm.gent/trots/assets/projects/milk/5_appmockup.png"
+          'project': 3,
+          'title': 'Melk Campagne',
+          'description': 'Opdracht: bedenkt een nieuwe merknaam en ontwerp de verpakkingen voor 3 soorten melk. Vol, halfvol en melk met een speciaal smaakje. Er werd een huisstijl uitgewerkt die tevens de basis vormde voor een bijhorende reclamecampagne.',
+          'imgSrc': [
+            'http://www.gdm.gent/trots/assets/projects/milk/3_halfvolverpakking.png',
+            'http://www.gdm.gent/trots/assets/projects/milk/5_appmockup.png'
           ],
-          "course": "Photo Design",
-          "likes": [
+          'course': 'Photo Design',
+          'likes': [
             {
-              "user": "ysdlat@arteveldehs.be"
+              'user': 'ysdlat@arteveldehs.be'
             }
           ]
         },
         {
-          "project": 4,
-          "title": "Dagboeknotities",
-          "description": "In deze opdracht staat de verwondering centraal. In de briefing staat: 'laat je verwonderen door de kleine dingen en gebeurtenissen rond je. Kijk door een lens zoals een kind en ontdek de wereld om je heen'",
-          "imgSrc": [
-            "http://www.gdm.gent/trots/assets/projects/dagboeknotities/4.png",
-            "http://www.gdm.gent/trots/assets/projects/dagboeknotities/5.png"
+          'project': 4,
+          'title': 'Dagboeknotities',
+          'description': "In deze opdracht staat de verwondering centraal. In de briefing staat: 'laat je verwonderen door de kleine dingen en gebeurtenissen rond je. Kijk door een lens zoals een kind en ontdek de wereld om je heen'",
+          'imgSrc': [
+            'http://www.gdm.gent/trots/assets/projects/dagboeknotities/4.png',
+            'http://www.gdm.gent/trots/assets/projects/dagboeknotities/5.png'
           ],
-          "course": "Photo Design",
-          "likes": [
+          'course': 'Photo Design',
+          'likes': [
             {
-              "user": "ysdlat@arteveldehs.be"
+              'user': 'ysdlat@arteveldehs.be'
             }
           ]
         }
       ],
-      "pages": [
-        {
-          "pageName": "Home",
-          "title": "Showcase"
+      'pages': {
+        'index': {
+          'pageName': 'Home',
+          'title': 'Showcase'
+        },
+        'blog': {
+          'pageName': 'Blog',
+          'title': 'First Post',
+          'author': 'GDM',
+          'postDate': '10/11/2017',
+          'postContent': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod beatae similique sed quisquam error neque fugit sapiente aliquid doloremque illo ipsum atque nulla laborum, cupiditate doloribus. Modi odit, laboriosam nam consequuntur ea aut eveniet iste placeat saepe. Laudantium commodi provident incidunt molestias possimus in atque et vel ad neque fugiat assumenda quia alias nisi voluptate rem non doloremque velit quidem voluptas nam obcaecati dignissimos, maiores veritatis. Error vero velit consequatur eius similique reprehenderit voluptatibus voluptatem beatae, a nostrum aperiam architecto!'
         }
-            
-      ],
-        "blogposts": [
+      },
+      'blogposts': [
         {
-          "title": "First Post",
-          "author": "GDM",
-          "postDate": "10/11/2017",
-          "postContent": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod beatae similique sed quisquam error neque fugit sapiente aliquid doloremque illo ipsum atque nulla laborum, cupiditate doloribus. Modi odit, laboriosam nam consequuntur ea aut eveniet iste placeat saepe. Laudantium commodi provident incidunt molestias possimus in atque et vel ad neque fugiat assumenda quia alias nisi voluptate rem non doloremque velit quidem voluptas nam obcaecati dignissimos, maiores veritatis. Error vero velit consequatur eius similique reprehenderit voluptatibus voluptatem beatae, a nostrum aperiam architecto!"
+          'title': 'First Post',
+          'author': 'GDM',
+          'postDate': '10/11/2017',
+          'postContent': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod beatae similique sed quisquam error neque fugit sapiente aliquid doloremque illo ipsum atque nulla laborum, cupiditate doloribus. Modi odit, laboriosam nam consequuntur ea aut eveniet iste placeat saepe. Laudantium commodi provident incidunt molestias possimus in atque et vel ad neque fugiat assumenda quia alias nisi voluptate rem non doloremque velit quidem voluptas nam obcaecati dignissimos, maiores veritatis. Error vero velit consequatur eius similique reprehenderit voluptatibus voluptatem beatae, a nostrum aperiam architecto!'
         }
       ]
-    }
+    };
     // The data as value of the previous key aka connection string
     // Get the sored data with the key. If the data is not present in the localstorage --> store the previous data from the variable _dbData into the localstorage via the connection string or namespace
     if (window.localStorage.getItem(this._connectionStr) != null) {
@@ -388,14 +443,14 @@ var ApplicationDbContext = {
     let user;
     while (!match && i < data.length) {
       user = data[i];
-      if (user.persons.students.email === email) {
+      if (user.email === email) {
         match = true;
       } else {
         i++;
       }
     }
     if (match) {
-      return email;
+      return user;
     }
     return -1;
   },

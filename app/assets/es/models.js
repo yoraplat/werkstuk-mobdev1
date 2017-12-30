@@ -43,7 +43,15 @@ export class Student extends Person {
       'studentnumber': this.studentNr,
       'email': this.emailSchool,
       'projects': this.projects,
-      'password': this.password
+      'password': this.password,
+      'profilePicture': '',
+      'startStudies': '',
+      'following': [
+        {}
+      ],
+      'followers': [
+        {}
+      ]
     };
   }
 
