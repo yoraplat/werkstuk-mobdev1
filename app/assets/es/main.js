@@ -17,11 +17,11 @@ class App {
     for (let i = 1; i < liItems.length; i++) {
       let aNode = liItems[i].childNodes[0];
       let project = aNode.attributes[0].nodeValue;
-      liItems[i].setAttribute('onclick', (function () {
+      liItems[i].addEventListener('click', function () {
         window.localStorage.setItem('project', project);
         let url = (window.location.href === 'http://localhost:8080') ? window.location.href : 'http://localhost:8080';
-        //window.location.href = url + '/project.html';
-      })());
+        window.location.href = url + '/project.html';
+      });
     }
   }
 
