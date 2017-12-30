@@ -25,6 +25,25 @@ class App {
     }
   }
 
+  profile () {
+    let ul = document.querySelector('.artwork');
+    let liItems = ul.childNodes;
+    console.log(liItems);
+    for (let i = 1; i < liItems.length; i++) {
+      let imgNode = liItems[i].childNodes[0];
+      let project = imgNode.attributes[1].nodeValue;
+      let titelNode = liItems[i].childNodes[1].childNodes[0];
+      imgNode.addEventListener('click', function () {
+        window.localStorage.setItem('project', project);
+        window.location.href = window.location.href.replace('profile.html', 'project.html');
+      });
+      titelNode.addEventListener('click', function () {
+        window.localStorage.setItem('project', project);
+        window.location.href = window.location.href.replace('profile.html', 'project.html');
+      });
+    }
+  }
+
   loadJson () {
     let url = window.location.href;
     url = url.replace('.html', '');
@@ -98,6 +117,7 @@ class App {
             let liNode = document.createElement('li');
             let imgNode = document.createElement('img');
             imgNode.src = json.projects[j].imgSrc[0];
+            imgNode.dataset.project = json.projects[j].project;
             let divNode = document.createElement('div');
             divNode.setAttribute('class', 'artworkRight');
             let pNodeTitle = document.createElement('p');
@@ -360,6 +380,9 @@ window.addEventListener('load', (ev) => {
   app.init();
   if (window.location.href === 'http://localhost:8080/index.html' || window.location.href === 'http://localhost:8080') {
     app.index();
+  }
+  if (window.location.href === 'http://localhost:8080/profile.html') {
+    app.profile();
   }
 });
 
