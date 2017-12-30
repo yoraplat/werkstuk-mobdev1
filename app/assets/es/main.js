@@ -14,7 +14,7 @@ class App {
     let ul = document.querySelector('.showcase');
     let liItems = ul.childNodes;
     console.log(liItems);
-    for (let i = 1; i < liItems.length; i++) {
+    for (let i = 0; i < liItems.length; i++) {
       let aNode = liItems[i].childNodes[0];
       let project = aNode.attributes[0].nodeValue;
       liItems[i].addEventListener('click', function () {
@@ -29,7 +29,7 @@ class App {
     let ul = document.querySelector('.artwork');
     let liItems = ul.childNodes;
     console.log(liItems);
-    for (let i = 1; i < liItems.length; i++) {
+    for (let i = 0; i < liItems.length; i++) {
       let imgNode = liItems[i].childNodes[0];
       let project = imgNode.attributes[1].nodeValue;
       let titelNode = liItems[i].childNodes[1].childNodes[0];
