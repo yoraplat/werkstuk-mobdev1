@@ -46,10 +46,9 @@ class App {
 
   loadJson () {
     let url = window.location.href;
+    url = url.split('/');
+    url = url.pop();
     url = url.replace('.html', '');
-    url = (url === 'http://localhost:8080/') ? 'index' : url;
-    url = url.replace('http://localhost:8080/', '');
-    url = url.replace('/', '');
     let json = JSON.parse(window.localStorage.getItem('json'));
     let user = JSON.parse(window.localStorage.getItem('user'));
     switch (url) {
